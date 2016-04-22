@@ -1,69 +1,68 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <style>
-canvas {
-    border:1px solid #d3d3d3;
-    background-color: #f1f1f1;
+	.buttons{
+		text-align:center;
+		margin-top: 30px;
+	}
+	.button {
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #3d94f6), color-stop(1, #1e62d0));
+	background:-moz-linear-gradient(top, #3d94f6 5%, #1e62d0 100%);
+	background:-webkit-linear-gradient(top, #3d94f6 5%, #1e62d0 100%);
+	background:-o-linear-gradient(top, #3d94f6 5%, #1e62d0 100%);
+	background:-ms-linear-gradient(top, #3d94f6 5%, #1e62d0 100%);
+	background:linear-gradient(to bottom, #3d94f6 5%, #1e62d0 100%);
+	background-color:#3d94f6;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Verdana;
+	font-size:21px;
+	font-weight:bold;
+	padding:30px 60px;
 }
+
 </style>
-</head>
-<body onload="startGame()">
 <script>
+function createForm() {
+    var form=Math.floor((Math.random() * 4) + 1);
+    var width= Math.floor((Math.random() * 10) + 1); // or radius
+    var height= Math.floor((Math.random() * 10) + 1);
+    var area=0;
 
-var myGamePiece;
-
-function startGame() {
-    myGamePiece = new component(30, 30, "blue", 80, 75);
-    myGameArea.start();
-}
-
-var myGameArea = {
-    canvas : document.createElement("canvas"),
-    start : function() {
-        this.canvas.width = window.innerWidth;
-        this.canvas.height = window.innerHeight;
-        this.context = this.canvas.getContext("2d");
-        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
-        this.frameNo = 0;
-        this.interval = setInterval(updateGameArea, 20);
-    },
-    stop : function() {
-        clearInterval(this.interval);
-    },    
-    clear : function() {
-       this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    if(form==1){
+     document.getElementById('left').innerHTML = '<rect x="25%" y="25%" width="300" height="100" style="fill:rgb(0,0,255);stroke-width:3;stroke:rgb(0,0,0)">';
+     area=width*height;
+    // document.getElementById("first").innerHTML=area;
+    }
+    else if(form==2){
+     document.getElementById('left').innerHTML= '<rect x="25%" y="25%" width="150" height="150" style="fill:rgb(0,0,255);stroke-width:3;stroke:rgb(0,0,0)">';
+     area=width^2;
+    }
+    else if(form==3){
+     document.getElementById('left').innerHTML = '<circle cx="25%" cy="25%" r="75" stroke="black" stroke-width="3" fill="red" />';
+     area= Math.PI* width^2;
+    }
+    else { 
+    document.getElementById('left').innerHTML= '<path x="25%" y="25%" d="M75 0 L75 200 L225 200 Z" />';
+    area= 0.5*width*height;
     }
 }
 
-function component(width, height, color, x, y) {
-    this.width = width;
-    this.height = height;
-    this.angle = 0;
-    this.x = x;
-    this.y = y;    
-    this.update = function() {
-        ctx = myGameArea.context;
-        ctx.save();
-        ctx.translate(this.x, this.y);        
-        ctx.rotate(this.angle);
-        ctx.fillStyle = color;
-        ctx.fillRect(this.width / -2, this.height / -2, this.width, this.height);        
-        ctx.restore();    
-    }
-}
+    </script>
+    </head>
+<body onload="createForm()" style="background-color: #f0f5f9">
+<div id="container" style="width:100%;">                                   
+	<svg id='left' style="float:left; width:50%; height:1000;"></svg>                    
+  <div id="right" style="float:right; width:50%;"> This is right panel 
+  <div class="buttons"> <button class="button" id="first">Click Me!</button></div>
+  <div class="buttons"> <button class="button" id="second">Click Me!</button></div>
+  <div class="buttons"> <button class="button" id="third">Click Me!</button></div>
+  <div class="buttons"> <button class="button" id="fourth">Click Me!</button></div>
+  </div>                   
+</div>  
 
-function updateGameArea() {
-    myGameArea.clear();
-    myGamePiece.angle += 1 * Math.PI / 180;    
-    myGamePiece.update();
-}
 
-</script>
-
-<!--<p>The red square will rotate one degree every time the gamearea updates (50 times per second).</p>
-
-<p>Note: The angle property must be a radian. You can convert degrees into radians by using the formula x * Math.PI / 180</p>-->
 </body>
 </html>
