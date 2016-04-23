@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+	.buttons{
+		text-align:center;
+		margin-top: 30px;
+	}
+	.button {
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #3d94f6), color-stop(1, #1e62d0));
+	background:-moz-linear-gradient(top, #3d94f6 5%, #1e62d0 100%);
+	background:-webkit-linear-gradient(top, #3d94f6 5%, #1e62d0 100%);
+	background:-o-linear-gradient(top, #3d94f6 5%, #1e62d0 100%);
+	background:-ms-linear-gradient(top, #3d94f6 5%, #1e62d0 100%);
+	background:linear-gradient(to bottom, #3d94f6 5%, #1e62d0 100%);
+	background-color:#3d94f6;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Verdana;
+	font-size:21px;
+	font-weight:bold;
+	padding:30px 60px;
+}
+
+</style>
+<script>
+var area=0;
+var score=0;
+var cir=false;
+function createForm() {
+    var form=Math.floor((Math.random() * 4) + 1);
+    var width= Math.floor((Math.random() * 10) + 1); // or radius
+    var height= Math.floor((Math.random() * 10) + 1);
+ 
+
+    if(form==1){
+     document.getElementById('left').innerHTML = '<rect x="25%" y="25%" width="300" height="100" style="fill:rgb(0,0,255);stroke-width:3;stroke:rgb(0,0,0)">';
+     area=width*height;
+     document.getElementById('text').innerHTML="Side A: "+ width + "Side B: " + height;
+    // document.getElementById("first").innerHTML=area;
+    }
+    else if(form==2){
+     document.getElementById('left').innerHTML= '<rect x="25%" y="25%" width="150" height="150" style="fill:rgb(0,0,255);stroke-width:3;stroke:rgb(0,0,0)">';
+     area=width*width;
+     document.getElementById('text').innerHTML="Side A: "+ width;
+    }
+    else if(form==3){
+     document.getElementById('left').innerHTML = '<circle cx="25%" cy="25%" r="75" stroke="black" stroke-width="3" fill="red" />';
+     area= parseFloat(Math.PI * width*width).toFixed(2);
+     document.getElementById('text').innerHTML="Radius R: "+ width;
+     cir=true;
+    }
+    else { 
+   // document.getElementById('left').innerHTML= '<path x="25%" y="25%" d="M75 0 L75 200 L225 200 Z" />';
+   document.getElementById('left').innerHTML= '<polygon points="30, 310 210, 310 210, 110" style="fill: blue; stroke:black; stroke-width:1" />';
+    area= 0.5*width*height;
+    document.getElementById('text').innerHTML="Side A: "+ height + " Side B: " + width;
+    }
+   // document.getElementById('text').innerHTML="A: "+ height + " B: " + width;
+    buttonsValue();
+
+
+}
+function buttonsValue(){
+	if(cir){
+		do{
+	var case1=parseFloat(Math.floor((Math.random() * 10) + 1) * Math.floor((Math.random() * 10) + 1)*(Math.random()*5)).toFixed(2);
+	var case2=parseFloat(Math.floor((Math.random() * 10) + 1) * Math.floor((Math.random() * 10) + 1)*(Math.random()*5)).toFixed(2);
+	var case3=parseFloat(Math.floor((Math.random() * 10) + 1) * Math.floor((Math.random() * 10) + 1)*(Math.random()*5)).toFixed(2);}
+		while(area==case1 || area==case3 || area==case2 || case2==case3 || case2==case1 || case3==case1)
+		cir=false;
+	}
+	else{
+	do{
+	var case1=Math.floor((Math.random() * 10) + 1) * Math.floor((Math.random() * 10) + 1);
+	var case2=Math.floor((Math.random() * 10) + 1) * Math.floor((Math.random() * 10) + 1);
+	//case2=parseFloat(Math.floor((Math.random() * 10) + 1) * Math.floor((Math.random() * 10) + 1)*(Math.random()*5)).toFixed(2)
+	var case3=Math.floor((Math.random() * 10) + 1) * Math.floor((Math.random() * 10) + 1);
+	} while(area==case1 || area==case3 || area==case2 || case2==case3 || case2==case1 || case3==case1)
+}
+	//if(sq!=case1 && sq!=case3 && sq!=case2 && case2!=case3 && case2!=case1 && case3!=case1){}
+	do{
+		var first=Math.floor((Math.random() * 4) + 1);
+		var second=Math.floor((Math.random() * 4) + 1);
+		var third=Math.floor((Math.random() * 4) + 1);
+		var fourth=Math.floor((Math.random() * 4) + 1);
+	}while(first!=second && first!=fourth && first!=third && second!=third && second!=fourth && third!=fourth)
+	document.getElementById("first").innerHTML=area;
+	document.getElementById("second").innerHTML=case1;
+	document.getElementById("third").innerHTML=case2;
+	document.getElementById("fourth").innerHTML=case3;
+}
+function checkResult(id){
+	var men=document.getElementById(id).innerHTML;
+	if(men==area){
+		score=score+5;
+
+	}
+	//alert(men);
+	createForm();
+}
+    </script>
+    </head>
+<body onload="createForm()"  background = "background.jpg">
+<div id="container" style="width:100%;">
+	<p id="text"></p>                                   
+	<svg id='left' style="float:left; width:50%; height:1000;"></svg>                    
+  <div id="right" style="float:right; width:50%;"> This is right panel 
+  <div class="buttons"> <button class="button" id="first" onclick="checkResult(this.id)"></button></div>
+  <div class="buttons"> <button class="button" id="second" onclick="checkResult(this.id)"></button></div>
+  <div class="buttons"> <button class="button" id="third" onclick="checkResult(this.id)"></button></div>
+  <div class="buttons"> <button class="button" id="fourth" onclick="checkResult(this.id)"></button></div>
+  </div>                   
+</div>  
+
+
+</body>
+</html>
