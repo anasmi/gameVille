@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+ <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<style>
+	.buttons{
+		text-align:center;
+		margin-top: 30px;
+	}
+	.button {
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #3d94f6), color-stop(1, #1e62d0));
+	background:-moz-linear-gradient(top, #3d94f6 5%, #1e62d0 100%);
+	background:-webkit-linear-gradient(top, #3d94f6 5%, #1e62d0 100%);
+	background:-o-linear-gradient(top, #3d94f6 5%, #1e62d0 100%);
+	background:-ms-linear-gradient(top, #3d94f6 5%, #1e62d0 100%);
+	background:linear-gradient(to bottom, #3d94f6 5%, #1e62d0 100%);
+	background-color:#3d94f6;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Verdana;
+	font-size:21px;
+	font-weight:bold;
+	width:300px;
+	height: 100px;
+	border: solid #1f628d 2px;
+	/*padding:30px 60px;*/
+}
+
+.correct:after{
+	content: "";
+	display:block;
+	width: 300px;
+	height: 300px;
+	background: url(correct.png) no-repeat;
+	position: fixed;
+	left:50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	background-size: contain;
+} 
+.wrong:after{
+	content: "";
+	display:block;
+	width: 300px;
+	height: 300px;
+	background: url(wrong.png) no-repeat;
+	position: fixed;
+	left:50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	background-size: contain;
+} 
+.text{
+  color: #FFFFFF;
+  font-family: 'comic sans ms';
+  font-size: 30px;
+  font-variant: small-caps;
+  text-align: center;
+  bottom: 36px;
+  	width:550px;
+	height: 100px;
+   -webkit-border-radius: 1;
+  -moz-border-radius: 1;
+  border-radius: 1px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 51px;
+  background: #3498db;
+  padding: 10px 20px 10px 20px;
+  border: solid #1f628d 2px;
+}
+}
+</style>
+
+<script>
+var area=0;
+var score=0;
+var cir=false;
+var hint;
+function createForm() {
+    var form=Math.floor((Math.random() * 4) + 1);
+    var width= Math.floor((Math.random() * 10) + 1); // or radius
+    var height= Math.floor((Math.random() * 10) + 1);
+ 
+
+    if(form==1){
+    // document.getElementById('left').innerHTML = '<rect x="25%" y="25%" width="300" height="100" style="fill:rgb(0,0,255);stroke-width:3;stroke:rgb(0,0,0)">';
+    document.getElementById('left').innerHTML='<image xlink:href="rectangle.png" x="15%" y="25%" height="450px" width="550px"/>';
+     area=width*height;
+     document.getElementById('text').innerHTML="Side A: "+ width + " Side B: " + height;
+     hint= "Area=A*B";
+    // document.getElementById("first").innerHTML=area;
+    }
+    else if(form==2){
+     //document.getElementById('left').innerHTML= '<rect x="25%" y="25%" width="150" height="150" style="fill:rgb(0,0,255);stroke-width:3;stroke:rgb(0,0,0)">';
+     document.getElementById('left').innerHTML='<image xlink:href="square.png" x="15%" y="25%" height="500px" width="500px"/>';
+     area=width*width;
+     hint="Area=A*A";
+     document.getElementById('text').innerHTML="Side A: "+ width;
+    }
+    else if(form==3){
+    // document.getElementById('left').innerHTML = '<circle cx="25%" cy="25%" r="75" stroke="black" stroke-width="3" fill="red" />';
+    document.getElementById('left').innerHTML='<image xlink:href="circle.png" x="25%" y="25%" height="400px" width="400px"/>';
+     area= parseFloat(Math.PI * width*width).toFixed(2);
+     hint= "Area= &pi; *R<sup>2</sup>";
+     document.getElementById('text').innerHTML="Radius R: "+ width;
+     cir=true;
+    }
+    else { 
+   // document.getElementById('left').innerHTML= '<path x="25%" y="25%" d="M75 0 L75 200 L225 200 Z" />';
+  // document.getElementById('left').innerHTML= '<polygon points="30, 310 210, 310 210, 110" style="fill: blue; stroke:black; stroke-width:1" />';
+  	document.getElementById('left').innerHTML='<image xlink:href="triangle.png" x="25%" y="25%" height="400px" width="400px"/>';
+    area= 0.5*width*height;
+    hint="Area=0,5*A*B";
+    document.getElementById('text').innerHTML=" Side A: "+ height +" Side B: " + width;
+    }
+    document.getElementById('score').innerHTML= "Score: " + score;
+   // document.getElementById('text').innerHTML="A: "+ height + " B: " + width;
+   document.getElementById('hint').innerHTML="HINT";
+    buttonsValue();
+    //document.getElementById("result").className="";
+
+
+}
+function buttonsValue(){
+	if(cir){
+		do{
+	var case1=parseFloat(Math.floor((Math.random() * 10) + 1) * Math.floor((Math.random() * 10) + 1)*(Math.random()*5)).toFixed(2);
+	var case2=parseFloat(Math.floor((Math.random() * 10) + 1) * Math.floor((Math.random() * 10) + 1)*(Math.random()*5)).toFixed(2);
+	var case3=parseFloat(Math.floor((Math.random() * 10) + 1) * Math.floor((Math.random() * 10) + 1)*(Math.random()*5)).toFixed(2);}
+		while(area==case1 || area==case3 || area==case2 || case2==case3 || case2==case1 || case3==case1)
+		cir=false;
+	}
+	else{
+	do{
+	var case1=Math.floor((Math.random() * 10) + 1) * Math.floor((Math.random() * 10) + 1);
+	var case2=Math.floor((Math.random() * 10) + 1) * Math.floor((Math.random() * 10) + 1);
+	var case3=Math.floor((Math.random() * 10) + 1) * Math.floor((Math.random() * 10) + 1);
+	} while(area==case1 || area==case3 || area==case2 || case2==case3 || case2==case1 || case3==case1)
+}
+	var values=shuffleArray(['first', 'second','third','fourth']);
+	document.getElementById(values[0]).innerHTML=area;
+	document.getElementById(values[1]).innerHTML=case1;
+	document.getElementById(values[2]).innerHTML=case2;
+	document.getElementById(values[3]).innerHTML=case3;
+}
+function checkResult(id){
+	var men=document.getElementById(id).innerHTML;
+	if(men==area){
+		document.getElementById("result").className = "correct";
+		//$("result").fadeIn();
+       // $("result").fadeOut();
+        //$("result").delay(100).className="";
+		score=score+10;
+	}
+	else{
+	document.getElementById("result").className = "wrong";
+	if(score>0){
+		score=score-5;
+	}
+}
+	createForm();
+	//alert(men);
+}
+function giveHint(){
+	document.getElementById('hint').innerHTML=hint;
+}
+function shuffleArray(array) {
+    for (var i = array.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+    return array;
+}
+    </script>
+    </head>
+<body onload="createForm()"  background = "background.jpg">
+<div id="container" style="width:100%;">                                  
+	<div style="float:left; width:50%;">
+		<svg id='left' style="float:left; width:100%; height: 600"></svg>
+		<p align="center"><button id="text" class="text" style="align-self: right;"></button></p> 
+		<p align="center"><button id="score" class="text" style="align-self: right;"></button></p> 
+	</div>
+	<div id="result"></div>
+ 	 <div id="right" style="float:right; width:50%;"> 
+  		<div class="buttons" style="margin-top: 120px;"> 
+  		<button class="button" id="first" onclick="checkResult(this.id)"></button></div>
+  		<div class="buttons"> <button class="button" id="second" onclick="checkResult(this.id)"></button></div>
+ 		<div class="buttons"> <button class="button" id="third" onclick="checkResult(this.id)"></button></div>
+ 		<div class="buttons"> <button class="button" id="fourth" onclick="checkResult(this.id)"></button></div>
+ 		<div class="buttons" style="margin-top: 80px;"> <button class="button" id="hint" onclick="giveHint()"></button></div>
+  	</div>                   
+</div>  
+</body>
+</html>
